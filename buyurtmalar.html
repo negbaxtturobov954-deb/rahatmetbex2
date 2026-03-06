@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Buyurtmalar - Rahat Metbex</title>
+<link rel="stylesheet" href="./rahat.css">
+</head>
+<body>
+
+<div class="navbar">
+  <div class="nav-left">
+    <a href="index.html">Bosh sahifa</a>
+    <a href="menu.html">Menu</a>
+    <a href="buyurtmalar.html" class="active">Buyurtmalar</a>
+  </div>
+</div>
+
+<h1 class="title">Buyurtma berish</h1>
+
+<form class="order-form" id="order-form">
+  <input type="text" name="name" placeholder="Ismingiz" required>
+  <input type="tel" name="phone" placeholder="Telefon raqamingiz" required>
+  <select name="food" id="food-select" required>
+    <option value="">Ovqat tanlang</option>
+    <option value="Osh">Osh</option>
+    <option value="Salat">Salat</option>
+    <option value="Lagman">Lagman</option>
+    <option value="Belyashi">Belyashi</option>
+    <option value="Burger">Burger</option>
+  </select>
+  <button type="submit">Buyurtma berish</button>
+</form>
+
+<script>
+const form = document.querySelector('#order-form');
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  const formData = new FormData(form);
+
+  fetch('https://sizning-serveringiz.com/buyurtma', { 
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.text())
+  .then(data => alert(data))
+  .catch(err => alert('Xatolik yuz berdi!'));
+});
+</script>
+
+</body>
+</html>

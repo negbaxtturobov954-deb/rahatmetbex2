@@ -1,0 +1,139 @@
+body{
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(135deg, #ffe6e6, #fff0f5);
+margin:0;
+padding:0;
+color:#333;
+}
+
+.navbar {
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 15px 0;
+background: #ff4d6d;
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.nav-left a {
+margin: 0 25px;
+text-decoration: none;
+color: #fff;
+font-weight:600;
+font-size:18px;
+position: relative;
+transition:0.3s;
+}
+
+.nav-left a:hover,
+.nav-left a.active {
+color: #fff0f5;
+}
+
+.title{
+text-align:center;
+margin:40px 0;
+font-size:36px;
+color:#ff4d6d;
+text-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+}
+
+.foods{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+width:90%;
+margin:auto;
+}
+
+.food{
+background:linear-gradient(145deg,#ffffff,#ffe6f0);
+border-radius:15px;
+padding:20px;
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+transition:0.3s;
+text-align:center;
+}
+
+.food:hover{
+transform:scale(1.05);
+box-shadow:0 12px 25px rgba(0,0,0,0.25);
+}
+
+.food img{
+width:100%;
+height:160px;
+object-fit:cover;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.food h3{
+margin:10px 0 5px 0;
+font-size:22px;
+color:#ff4d6d;
+}
+
+.food p{
+color:#27ae60;
+font-weight:bold;
+font-size:18px;
+}
+
+.order-btn{
+background:#ff4d6d;
+color:#fff;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+margin-top:10px;
+transition:0.3s;
+}
+
+.order-btn:hover{
+background:#ff7385;
+transform:scale(1.05);
+}
+
+.order-form{
+display:flex;
+flex-direction:column;
+gap:10px;
+width:300px;
+margin: auto;
+}
+
+.order-form input,
+.order-form select{
+padding:8px 10px;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:15px;
+}
+
+.order-form button{
+background:#ff4d6d;
+color:#fff;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+transition:0.3s;
+}
+
+.order-form button:hover{
+background:#ff7385;
+transform:scale(1.05);
+}
+
+@media (max-width: 768px) {
+.foods{
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+}
+.order-form{
+width:90%;
+}
+}

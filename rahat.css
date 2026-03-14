@@ -1,139 +1,186 @@
-body{
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-background: linear-gradient(135deg, #ffe6e6, #fff0f5);
-margin:0;
-padding:0;
-color:#333;
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: Segoe UI;
 }
 
-.navbar {
+body{
+background:#fff8f0;
+}
+
+.navbar{
 display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 20px 20px;
+background: #ff6b00;
+color: white;
+}
+
+.logo{
+font-size: 24px;
+font-weight: bold;
+}
+
+nav a{
+color: white;
+text-decoration: none;
+margin-left: 25px;
+font-size: 18px;
+}
+
+nav a:hover{
+opacity: 0.8;
+}
+
+.active{
+border-bottom: 2px solid white;
+}
+
+.hero{
+height: 40vh;
+display: flex;
+flex-direction: column;
 justify-content: center;
 align-items: center;
-padding: 15px 0;
-background: #ff4d6d;
-box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+text-align: center;
+background: linear-gradient(120deg,#ff6b00,#ffb347);
+color: white;
 }
 
-.nav-left a {
-margin: 0 25px;
-text-decoration: none;
-color: #fff;
-font-weight:600;
-font-size:18px;
-position: relative;
-transition:0.3s;
+.hero h1{
+font-size: 55px;
+margin-bottom:15px;
 }
 
-.nav-left a:hover,
-.nav-left a.active {
-color: #fff0f5;
+.hero p{
+font-size:20px;
+margin-bottom:25px;
 }
 
-.title{
+.btn{
+background:white;
+color:#ff6b00;
+padding:12px 25px;
+text-decoration:none;
+border-radius:8px;
+font-weight:bold;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+width:90%;
+margin:auto;
+padding:60px 0;
+}
+
+.feature{
+background:white;
+padding:30px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.menu-title{
 text-align:center;
 margin:40px 0;
-font-size:36px;
-color:#ff4d6d;
-text-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+font-size:40px;
+color:#ff6b00;
 }
 
 .foods{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px;
 width:90%;
 margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap: 25px;
 }
 
 .food{
-background:linear-gradient(145deg,#ffffff,#ffe6f0);
-border-radius:15px;
-padding:20px;
-box-shadow:0 8px 20px rgba(0,0,0,0.15);
-transition:0.3s;
+background:white;
+border-radius:12px;
+padding:15px;
 text-align:center;
-}
-
-.food:hover{
-transform:scale(1.05);
-box-shadow:0 12px 25px rgba(0,0,0,0.25);
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 .food img{
 width:100%;
-height:160px;
+height:170px;
 object-fit:cover;
-border-radius:12px;
-margin-bottom:15px;
+border-radius:10px;
 }
 
 .food h3{
-margin:10px 0 5px 0;
-font-size:22px;
-color:#ff4d6d;
+margin:10px 0;
 }
 
 .food p{
 color:#27ae60;
-font-weight:bold;
-font-size:18px;
+font-weight: bold;
 }
 
-.order-btn{
-background:#ff4d6d;
-color:#fff;
-border:none;
-padding:10px 15px;
-border-radius:8px;
-cursor:pointer;
-font-weight:600;
+.food button{
 margin-top:10px;
-transition:0.3s;
+background:#ff6b00;
+color:white;
+border:none;
+padding:8px 15px;
+border-radius:6px;
+cursor:pointer;
 }
 
-.order-btn:hover{
-background:#ff7385;
-transform:scale(1.05);
+.order-page{
+display:flex;
+justify-content:center;
+align-items:center;
+height:80vh;
 }
 
-.order-form{
+.order-box{
+background:white;
+padding:40px;
+border-radius:12px;
+width:350px;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+.order-box h1{
+margin-bottom:20px;
+color:#ff6b00;
+}
+
+.order-box form{
 display:flex;
 flex-direction:column;
-gap:10px;
-width:300px;
-margin: auto;
+gap:15px;
 }
 
-.order-form input,
-.order-form select{
-padding:8px 10px;
+.order-box input,
+.order-box select{
+padding:10px;
 border-radius:6px;
-border:1px solid #ccc;
-font-size:15px;
+border: 1px solid #ccc;
 }
 
-.order-form button{
-background:#ff4d6d;
-color:#fff;
+.order-box button{
+background:#ff6b00;
+color:white;
 border:none;
-padding:10px 15px;
-border-radius:8px;
+padding:12px;
+border-radius:6px;
 cursor:pointer;
-font-weight:600;
-transition:0.3s;
 }
 
-.order-form button:hover{
-background:#ff7385;
-transform:scale(1.05);
-}
-
-@media (max-width: 768px) {
-.foods{
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-}
-.order-form{
-width:90%;
-}
+footer{
+margin-top:50px;
+background:#222;
+color:white;
+text-align:center;
+padding:15px;
 }

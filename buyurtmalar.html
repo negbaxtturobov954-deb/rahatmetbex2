@@ -19,44 +19,49 @@
 <section class="order-page">
 <div class="order-box">
 <h1>Buyurtma Qilish</h1>
-<form>
-<input type="text" placeholder="Ismingiz">
-<input type="tel" placeholder="Telefon">
-<select>
-<option>Ovqat tanlang</option>
-<option>Osh</option>
-<option>Lagman</option>
-<option>Salat</option>
-<option>Belyashi</option>
-<option>Burger</option>
+<form id="orderForm">
+<input type="text" placeholder="Ismingiz" required>
+<input type="tel" placeholder="Telefon" required>
+<select required>
+<option value="">Ovqat tanlang</option>
+<option value="Osh">Osh</option>
+<option value="Lagman">Lagman</option>
+<option value="Salat">Salat</option>
+<option value="Belyashi">Belyashi</option>
+<option value="Burger">Burger</option>
 </select>
-<input type="number" placeholder="Nechta">
+<input type="number" placeholder="Nechta" min="1" required>
 <button>Buyurtma berish</button>
 </form>
 </div>
 </section>
 
-<footer>
-<p>© 2026 Rahat Metbex</p>
-<p>Telefon: +998 93 082 83 21</p>
-</footer>
-
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector("form");
-    form.addEventListener("submit", function(e){
-        e.preventDefault();
-        const ism = form.querySelector('input[type="text"]').value.trim();
-        const telefon = form.querySelector('input[type="tel"]').value.trim();
-        const ovqat = form.querySelector('select').value;
-        const soni = form.querySelector('input[type="number"]').value.trim();
-        if(!ism || !telefon || !ovqat || ovqat==="Ovqat tanlang" || !soni) return;
-        let buyurtmalar = JSON.parse(localStorage.getItem("buyurtmalar")) || [];
-        const id = Date.now();
-        buyurtmalar.push({id, ism, telefon, ovqat, soni});
-        localStorage.setItem("buyurtmalar", JSON.stringify(buyurtmalar));
-        form.reset();
-    });
+const form = document.getElementById("orderForm");
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const ism = form.querySelector('input[type="text"]').value.trim();
+    const telefon = form.querySelector('input[type="tel"]').value.trim();
+    const ovqat = form.querySelector('select').value;
+    const soni = form.querySelector('input[type="number"]').value;
+
+    if(!ism || !telefon || !ovqat || !soni) return;
+
+    // oldingi buyurtmalarni olish
+    let buyurtmalar = JSON.parse(localStorage.getItem("buyurtmalar")) || [];
+
+    // yangi buyurtma
+    const id = Date.now(); // unikal ID
+    buyurtmalar.push({id, ism, telefon, ovqat, soni});
+
+    // localStorage ga saqlash
+    localStorage.setItem("buyurtmalar", JSON.stringify(buyurtmalar));
+
+    alert("Buyurtma qabul qilindi!");
+
+    form.reset();
 });
 </script>
 

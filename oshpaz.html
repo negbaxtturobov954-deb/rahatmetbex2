@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Oshxona Paneli</title>
+<link rel="stylesheet" href="rahat.css">
+</head>
+<body class="kitchen">
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if(localStorage.getItem("loggedIn") !== "true"){
+        alert("Siz kirish qilmagansiz!");
+        window.location.href = "login.html";
+    }
+});
+</script>
+
+<header class="navbar">
+<div class="logo">OSHXONA PANEL</div>
+<nav>
+<a href="index.html">Sayt</a>
+<a href="kitchen.html" class="active">Buyurtmalar</a>
+</nav>
+</header>
+
+<h1 class="menu-title">Kelgan Buyurtmalar</h1>
+
+<section class="orders"></section>
+
+<script>
+/
+document.addEventListener("DOMContentLoaded", function() {
+    const ordersContainer = document.querySelector(".orders");
+
+    function loadOrders() {
+        ordersContainer.innerHTML = "";
+        const buyurtmalar = JSON.parse(localStorage.getItem("buyurtmalar")) || [];
+        
+        buyurtmalar.forEach(b => {
+            const div = document.createElement("div");
+            div.className = "order-card";
+            div.innerHTML = `
+                <h3>Buyurtma #${b.id}</h3>
+                <p>Ovqat: ${b.ovqat}</p>
+                <p>Soni: ${b.soni} ta</p>
+                <p>Mijoz: ${b.ism}</p>
+                <button class="done">Tayyor</button>
+            `;
+            div.querySelector(".done").addEventListener("click", () => {
+                let buyurtmalar = JSON.parse(localStorage.getItem("buyurtmalar")) || [];
+                buyurtmalar = buyurtmalar.filter(item => item.id !== b.id);
+                localStorage.setItem("buyurtmalar", JSON.stringify(buyurtmalar));
+                loadOrders();
+            });
+            ordersContainer.appendChild(div);
+        });
+    }
+
+    loadOrders();
+});
+</script>
+
+</body>
+</html>

@@ -2,32 +2,26 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Buyurtma - Rahat Metbex</title>
+<title>Buyurtma</title>
 <link rel="stylesheet" href="rahat.css">
 </head>
-<body>
+<body class="order">
 
 <header class="navbar">
 <div class="logo">RAHAT METBEX</div>
 <nav>
 <a href="index.html">Bosh sahifa</a>
 <a href="menu.html">Menu</a>
-<a href="buyurtmalar.html" class="active">Buyurtmalar</a>
+<a href="order.html" class="active">Buyurtmalar</a>
 </nav>
 </header>
 
 <section class="order-page">
-
 <div class="order-box">
-
 <h1>Buyurtma Qilish</h1>
-
 <form>
-
 <input type="text" placeholder="Ismingiz">
-
 <input type="tel" placeholder="Telefon">
-
 <select>
 <option>Ovqat tanlang</option>
 <option>Osh</option>
@@ -36,22 +30,35 @@
 <option>Belyashi</option>
 <option>Burger</option>
 </select>
-
 <input type="number" placeholder="Nechta">
-
 <button>Buyurtma berish</button>
-
 </form>
-
 </div>
-
 </section>
 
 <footer>
 <p>© 2026 Rahat Metbex</p>
-<p>Muammo yuzaga kelganida, biz bilan bog'laning.</p>
-<p class="contact-info">Telefon: +998 93 082 83 21 | Telegram: @rahat_metbex</p>
+<p>Telefon: +998 93 082 83 21</p>
 </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.querySelector("form");
+    form.addEventListener("submit", function(e){
+        e.preventDefault();
+        const ism = form.querySelector('input[type="text"]').value.trim();
+        const telefon = form.querySelector('input[type="tel"]').value.trim();
+        const ovqat = form.querySelector('select').value;
+        const soni = form.querySelector('input[type="number"]').value.trim();
+        if(!ism || !telefon || !ovqat || ovqat==="Ovqat tanlang" || !soni) return;
+        let buyurtmalar = JSON.parse(localStorage.getItem("buyurtmalar")) || [];
+        const id = Date.now();
+        buyurtmalar.push({id, ism, telefon, ovqat, soni});
+        localStorage.setItem("buyurtmalar", JSON.stringify(buyurtmalar));
+        form.reset();
+    });
+});
+</script>
 
 </body>
 </html>

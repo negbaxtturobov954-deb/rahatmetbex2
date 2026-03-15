@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<title>Oshpaz Kirish</title>
+<link rel="stylesheet" href="rahat.css">
+</head>
+<body class="order">
+
+<header class="navbar">
+<div class="logo">OSHXONA LOGIN</div>
+</header>
+
+<section class="order-page">
+<div class="order-box">
+<h1>Oshpaz Kirish</h1>
+<form id="loginForm">
+<input type="text" placeholder="Login" id="username">
+<input type="password" placeholder="Parol" id="password">
+<button>Kirish</button>
+</form>
+</div>
+</section>
+
+<script>
+
+const oshpazlar = [
+  {username: "Ozod", password: "123o"},
+  {username: "Bektosh", password: "123b"},
+  {username: "Aziz", password: "123a"}
+];
+
+// Login tekshirish
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const u = document.getElementById("username").value.trim();
+  const p = document.getElementById("password").value.trim();
+  const found = oshpazlar.find(o => o.username === u && o.password === p);
+  if(found){
+    // Login muvaffaqiyatli bo'lsa flag saqlanadi
+    localStorage.setItem("loggedIn", "true");
+    // Oshxona paneliga yo'naltirish
+    window.location.href = "oshpaz.html";
+  } else {
+    alert("Login yoki parol xato!");
+  }
+});
+</script>
+
+</body>
+</html>

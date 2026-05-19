@@ -2,68 +2,144 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Buyurtma</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buyurtma - Rahat Metbex</title>
 <link rel="stylesheet" href="rahat.css">
 </head>
 <body class="order">
 
+<div class="toast" id="toast"></div>
+
 <header class="navbar">
-<div class="logo">RAHAT METBEX</div>
-<nav>
-<a href="index.html">Bosh sahifa</a>
-<a href="menu.html">Menu</a>
-<a href="order.html" class="active">Buyurtmalar</a>
-</nav>
+  <div class="logo">🍽️ RAHAT METBEX</div>
+  <div class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></div>
+  <nav>
+    <a href="index.html">Bosh sahifa</a>
+    <a href="menu.html">Menu</a>
+    <a href="buyurtmalar.html" class="active">Buyurtma</a>
+    <a href="login.html">Oshpazlar</a>
+  </nav>
+  <nav class="mobile">
+    <a href="index.html">Bosh sahifa</a>
+    <a href="menu.html">Menu</a>
+    <a href="buyurtmalar.html" class="active">Buyurtma</a>
+    <a href="login.html">Oshpazlar</a>
+  </nav>
 </header>
 
 <section class="order-page">
-<div class="order-box">
-<h1>Buyurtma Qilish</h1>
-<form id="orderForm">
-<input type="text" placeholder="Ismingiz" required>
-<input type="tel" placeholder="Telefon" required>
-<select required>
-<option value="">Ovqat tanlang</option>
-<option value="Osh">Osh</option>
-<option value="Lagman">Lagman</option>
-<option value="Salat">Salat</option>
-<option value="Belyashi">Belyashi</option>
-<option value="Burger">Burger</option>
-</select>
-<input type="number" placeholder="Nechta" min="1" required>
-<button>Buyurtma berish</button>
-</form>
-</div>
+  <div class="order-box" id="orderBox">
+    <h1>🛒 Buyurtma Qilish</h1>
+    <form id="orderForm">
+      <input type="text" id="ismInput" placeholder="Ismingiz" required>
+      <input type="tel" id="telInput" placeholder="Telefon raqam" required>
+      <select id="ovqatInput" required>
+        <option value="">Ovqat tanlang</option>
+        <option value="Osh 🍚">Osh 🍚 — 30 000 so'm</option>
+        <option value="Salat 🥗">Salat 🥗 — 25 000 so'm</option>
+        <option value="Lagman 🍜">Lagman 🍜 — 28 000 so'm</option>
+        <option value="Belyashi 🥟">Belyashi 🥟 — 18 000 so'm</option>
+        <option value="Burger 🍔">Burger 🍔 — 22 000 so'm</option>
+        <option value="Shashlik 🍖">Shashlik 🍖 — 35 000 so'm</option>
+        <option value="Shawarma 🥙">Shawarma 🥙 — 20 000 so'm</option>
+        <option value="Pizza 🍕">Pizza 🍕 — 32 000 so'm</option>
+      </select>
+      <input type="number" id="soniInput" placeholder="Nechta?" min="1" max="20" required>
+      <input type="text" id="izohInput" placeholder="Izoh (ixtiyoriy)">
+      <button type="submit" id="submitBtn">Buyurtma berish 🚀</button>
+    </form>
+
+    <div class="order-ticket" id="ticketBox">
+      <p class="ticket-label">Sizning buyurtma raqamingiz</p>
+      <div class="ticket-num" id="ticketNum">#0</div>
+      <p class="ticket-info" id="ticketInfo"></p>
+      <p style="color:#94a3b8;font-size:13px;margin-top:16px;">Raqamingiz chaqirilgunicha kuting 🎉</p>
+      <button onclick="newOrder()" style="margin-top:20px;background:linear-gradient(135deg,#7b2ff7,#f107a3);color:white;border:none;padding:12px 28px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;">Yangi buyurtma</button>
+    </div>
+  </div>
 </section>
 
+<footer><p>© 2026 Rahat Metbex</p></footer>
+
 <script>
-const form = document.getElementById("orderForm");
+function toggleMenu(){document.querySelector('nav.mobile').classList.toggle('show');}
 
-form.addEventListener("submit", function(e){
-    e.preventDefault();
+function showToast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`toast ${type} show`;
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
 
-    const ism = form.querySelector('input[type="text"]').value.trim();
-    const telefon = form.querySelector('input[type="tel"]').value.trim();
-    const ovqat = form.querySelector('select').value;
-    const soni = form.querySelector('input[type="number"]').value;
+const params=new URLSearchParams(location.search);
+const preOvqat=params.get('ovqat');
+if(preOvqat){
+  const sel=document.getElementById('ovqatInput');
+  for(let o of sel.options){if(o.value.startsWith(preOvqat)){o.selected=true;break;}}
+}
 
-    if(!ism || !telefon || !ovqat || !soni) return;
+async function sendTelegram(text){
+  const botToken="8751671033:AAHUc1T10uutYi9grFuYIwDMlD9VLdzyERY";
+  const chatId="5899654745";
+  try{
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({chat_id:chatId,text:text,parse_mode:"HTML"})
+    });
+  }catch(e){}
+}
 
-    // oldingi buyurtmalarni olish
-    let buyurtmalar = JSON.parse(localStorage.getItem("buyurtmalar")) || [];
+document.getElementById('orderForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  const btn=document.getElementById('submitBtn');
+  btn.textContent='Yuborilmoqda...';btn.disabled=true;
 
-    // yangi buyurtma
-    const id = Date.now(); // unikal ID
-    buyurtmalar.push({id, ism, telefon, ovqat, soni});
+  const ism=document.getElementById('ismInput').value.trim();
+  const telefon=document.getElementById('telInput').value.trim();
+  const ovqat=document.getElementById('ovqatInput').value;
+  const soni=document.getElementById('soniInput').value;
+  const izoh=document.getElementById('izohInput').value.trim();
 
-    // localStorage ga saqlash
-    localStorage.setItem("buyurtmalar", JSON.stringify(buyurtmalar));
+  if(!ism||!telefon||!ovqat||!soni){
+    showToast('Barcha maydonlarni to\'ldiring!','error');
+    btn.textContent='Buyurtma berish 🚀';btn.disabled=false;return;
+  }
 
-    alert("Buyurtma qabul qilindi!");
+  const id=Math.floor(Math.random()*900)+100;
+  const vaqt=new Date().toLocaleTimeString('uz-UZ',{hour:'2-digit',minute:'2-digit'});
 
-    form.reset();
+  let buyurtmalar=JSON.parse(localStorage.getItem("buyurtmalar"))||[];
+  buyurtmalar.push({id,ism,telefon,ovqat,soni,izoh,vaqt});
+  localStorage.setItem("buyurtmalar",JSON.stringify(buyurtmalar));
+
+  const msg=`🍽️ <b>Yangi buyurtma #${id}</b>\n\n👤 Ism: ${ism}\n📞 Telefon: ${telefon}\n🍴 Ovqat: ${ovqat}\n🔢 Soni: ${soni} ta\n💬 Izoh: ${izoh||"Yo'q"}\n🕐 Vaqt: ${vaqt}`;
+  await sendTelegram(msg);
+
+  document.getElementById('ticketNum').textContent='#'+id;
+  document.getElementById('ticketInfo').textContent=`${ovqat} × ${soni} ta — ${ism}`;
+  document.getElementById('orderForm').style.display='none';
+  document.getElementById('ticketBox').style.display='block';
+  document.querySelector('.order-box h1').style.display='none';
+  showToast('✅ Buyurtmangiz qabul qilindi!','success');
+
+  btn.textContent='Buyurtma berish 🚀';btn.disabled=false;
+});
+
+function newOrder(){
+  document.getElementById('orderForm').style.display='flex';
+  document.getElementById('ticketBox').style.display='none';
+  document.querySelector('.order-box h1').style.display='block';
+  document.getElementById('orderForm').reset();
+}
+
+document.querySelectorAll("button").forEach(btn=>{
+  btn.addEventListener("click",function(e){
+    const r=document.createElement("span");r.className="ripple";
+    const rect=this.getBoundingClientRect();
+    r.style.left=(e.clientX-rect.left)+"px";r.style.top=(e.clientY-rect.top)+"px";
+    this.appendChild(r);setTimeout(()=>r.remove(),600);
+  });
 });
 </script>
-
 </body>
 </html>

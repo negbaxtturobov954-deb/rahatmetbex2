@@ -2,55 +2,48 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rahat Metbex</title>
 <link rel="stylesheet" href="rahat.css">
 </head>
-
 <body class="home">
 
-<header class="navbar">
-<div class="logo">RAHAT METBEX</div>
+<div class="toast" id="toast"></div>
 
-<nav>
-<a href="index.html" class="active">Bosh sahifa</a>
-<a href="menu.html">Menu</a>
-<a href="buyurtmalar.html">Buyurtmalar</a>
-<a href="login.html">Oshpazlar</a> 
-</nav>
+<header class="navbar">
+  <div class="logo">🍽️ RAHAT METBEX</div>
+  <div class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></div>
+  <nav>
+    <a href="index.html" class="active">Bosh sahifa</a>
+    <a href="menu.html">Menu</a>
+    <a href="buyurtmalar.html">Buyurtma</a>
+    <a href="login.html">Oshpazlar</a>
+  </nav>
+  <nav class="mobile">
+    <a href="index.html" class="active">Bosh sahifa</a>
+    <a href="menu.html">Menu</a>
+    <a href="buyurtmalar.html">Buyurtma</a>
+    <a href="login.html">Oshpazlar</a>
+  </nav>
 </header>
 
 <section class="hero">
-
-<h1>Rahat Metbex</h1>
-
-<p>Navbat kutmasdan ovqat buyurtma qiling</p>
-
-<a href="menu.html" class="btn">Menu ko‘rish</a>
-
+  <h1>Rahat Metbexga<br>Xush Kelibsiz 🍜</h1>
+  <p>Navbat kutmasdan ovqat buyurtma qiling</p>
+  <a href="menu.html" class="btn">Menu ko'rish →</a>
 </section>
 
 <section class="features">
-
-<div class="feature">
-<h2>Tez xizmat</h2>
-<p>Ovqatni oldindan buyurtma qiling va kelganingizda tayyor holda oling.</p>
-</div>
-
-<div class="feature">
-<h2>Chek raqam</h2>
-<p>Har buyurtmaga maxsus raqam beriladi va shu orqali ovqatingiz tayyorlanadi.</p>
-</div>
-
-<div class="feature">
-<h2>Vaqt tejash</h2>
-<p>Talabalar navbat kutmaydi va darsga kech qolmaydi.</p>
-</div>
-
+  <div class="feature"><div class="feature-icon">⚡</div><h2>Tez xizmat</h2><p>Ovqatni oldindan buyurtma qiling va kelganingizda tayyor holda oling.</p></div>
+  <div class="feature"><div class="feature-icon">🎟️</div><h2>Chek raqam</h2><p>Har buyurtmaga maxsus raqam beriladi va shu orqali ovqatingiz tayyorlanadi.</p></div>
+  <div class="feature"><div class="feature-icon">⏰</div><h2>Vaqt tejash</h2><p>Talabalar navbat kutmaydi va darsga kech qolmaydi.</p></div>
 </section>
 
-<footer>
-<p>© 2026 Rahat Metbex</p>
-</footer>
+<footer><p>© 2026 Rahat Metbex — Barcha huquqlar himoyalangan</p></footer>
 
+<script>
+function toggleMenu(){document.querySelector('nav.mobile').classList.toggle('show');}
+document.querySelectorAll("button").forEach(btn=>{btn.addEventListener("click",function(e){const r=document.createElement("span");r.className="ripple";const rect=this.getBoundingClientRect();r.style.left=(e.clientX-rect.left)+"px";r.style.top=(e.clientY-rect.top)+"px";this.appendChild(r);setTimeout(()=>r.remove(),600);});});
+</script>
 </body>
 </html>

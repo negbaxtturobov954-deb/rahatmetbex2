@@ -2,50 +2,72 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Oshpaz Kirish</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oshpaz Kirish - Rahat Metbex</title>
 <link rel="stylesheet" href="rahat.css">
 </head>
 <body class="order">
 
+<div class="toast" id="toast"></div>
+
 <header class="navbar">
-<div class="logo">OSHXONA LOGIN</div>
+  <div class="logo">🍽️ RAHAT METBEX</div>
+  <nav>
+    <a href="index.html">Bosh sahifa</a>
+    <a href="menu.html">Menu</a>
+  </nav>
 </header>
 
 <section class="order-page">
-<div class="order-box">
-<h1>Oshpaz Kirish</h1>
-<form id="loginForm">
-<input type="text" placeholder="Login" id="username">
-<input type="password" placeholder="Parol" id="password">
-<button>Kirish</button>
-</form>
-</div>
+  <div class="order-box login">
+    <h1>👨‍🍳 Oshpaz Kirish</h1>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Login" required>
+      <input type="password" id="password" placeholder="Parol" required>
+      <button type="submit">Kirish →</button>
+    </form>
+  </div>
 </section>
 
-<script>
+<footer><p>© 2026 Rahat Metbex</p></footer>
 
-const oshpazlar = [
-  {username: "Ozod", password: "123o"},
-  {username: "Bektosh", password: "123b"},
-  {username: "Aziz", password: "123a"}
+<script>
+function showToast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`toast ${type} show`;
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+const oshpazlar=[
+  {username:"Ozod",password:"123o"},
+  {username:"Bektosh",password:"123b"},
+  {username:"Aziz",password:"123a"}
 ];
 
-// Login tekshirish
-document.getElementById("loginForm").addEventListener("submit", function(e){
+document.getElementById('loginForm').addEventListener('submit',function(e){
   e.preventDefault();
-  const u = document.getElementById("username").value.trim();
-  const p = document.getElementById("password").value.trim();
-  const found = oshpazlar.find(o => o.username === u && o.password === p);
+  const u=document.getElementById('username').value.trim();
+  const p=document.getElementById('password').value.trim();
+  const found=oshpazlar.find(o=>o.username===u&&o.password===p);
   if(found){
-    // Login muvaffaqiyatli bo'lsa flag saqlanadi
-    localStorage.setItem("loggedIn", "true");
-    // Oshxona paneliga yo'naltirish
-    window.location.href = "oshpaz.html";
-  } else {
-    alert("Login yoki parol xato!");
+    localStorage.setItem("loggedIn","true");
+    localStorage.setItem("oshpazNomi",u);
+    showToast(`Xush kelibsiz, ${u}! 👋`,'success');
+    setTimeout(()=>window.location.href="oshpaz.html",1000);
+  }else{
+    showToast('Login yoki parol xato! ❌','error');
+    document.getElementById('password').value='';
   }
 });
-</script>
 
+document.querySelectorAll("button").forEach(btn=>{
+  btn.addEventListener("click",function(e){
+    const r=document.createElement("span");r.className="ripple";
+    const rect=this.getBoundingClientRect();
+    r.style.left=(e.clientX-rect.left)+"px";r.style.top=(e.clientY-rect.top)+"px";
+    this.appendChild(r);setTimeout(()=>r.remove(),600);
+  });
+});
+</script>
 </body>
 </html>

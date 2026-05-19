@@ -2,68 +2,138 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Menu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu - Rahat Metbex</title>
 <link rel="stylesheet" href="rahat.css">
 </head>
-
 <body class="menu-page">
 
 <header class="navbar">
-
-<div class="logo">RAHAT METBEX</div>
-
-<nav>
-<a href="index.html">Bosh sahifa</a>
-<a href="menu.html" class="active">Menu</a>
-<a href="buyurtmalar.html">Buyurtmalar</a>
-</nav>
-
+  <div class="logo">🍽️ RAHAT METBEX</div>
+  <div class="hamburger" onclick="toggleMenu()"><div></div><div></div><div></div></div>
+  <nav>
+    <a href="index.html">Bosh sahifa</a>
+    <a href="menu.html" class="active">Menu</a>
+    <a href="buyurtmalar.html">Buyurtma</a>
+    <a href="login.html">Oshpazlar</a>
+  </nav>
+  <nav class="mobile">
+    <a href="index.html">Bosh sahifa</a>
+    <a href="menu.html" class="active">Menu</a>
+    <a href="buyurtmalar.html">Buyurtma</a>
+    <a href="login.html">Oshpazlar</a>
+  </nav>
 </header>
 
-<h1 class="menu-title">Bizning Taomlar</h1>
+<h1 class="menu-title">Bizning Taomlar 🍴</h1>
 
-<section class="foods">
-
-<div class="food">
-<img src="./rasm.png/image.png">
-<h3>Osh</h3>
-<p>30 000 so'm</p>
-<a href="buyurtmalar.html" class="order-btn">Buyurtma</a>
+<div class="search-bar" style="display:flex;width:90%;max-width:500px;margin:0 auto 30px;">
+  <span>🔍</span>
+  <input type="text" id="searchInput" placeholder="Taom qidiring...">
 </div>
 
-<div class="food">
-<img src="./rasm.png/image copy.png">
-<h3>Salat</h3>
-<p>25 000 so'm</p>
-<a href="buyurtmalar.html" class="order-btn">Buyurtma</a>
+<div class="category-tabs">
+  <button class="tab active" onclick="filterCategory('all',this)">Barchasi</button>
+  <button class="tab" onclick="filterCategory('asosiy',this)">Asosiy taomlar</button>
+  <button class="tab" onclick="filterCategory('salat',this)">Salatlar</button>
+  <button class="tab" onclick="filterCategory('tezkor',this)">Tezkor</button>
 </div>
 
-<div class="food">
-<img src="./rasm.png/image copy 2.png">
-<h3>Lagman</h3>
-<p>28 000 so'm</p>
-<a href="buyurtmalar.html" class="order-btn">Buyurtma</a>
-</div>
-
-<div class="food">
-<img src="./rasm.png/image copy 3.png">
-<h3>Belyashi</h3>
-<p>18 000 so'm</p>
-<a href="buyurtmalar.html" class="order-btn">Buyurtma</a>
-</div>
-
-<div class="food">
-<img src="./rasm.png/image copy 4.png">
-<h3>Burger</h3>
-<p>22 000 so'm</p>
-<a href="buyurtmalar.html" class="order-btn">Buyurtma</a>
-</div>
-
+<section class="foods" id="foodsGrid">
+  <div class="food" data-cat="asosiy">
+    <div class="food-emoji">🍚</div>
+    <div class="food-body">
+      <h3>Osh</h3>
+      <p>30 000 so'm</p>
+      <a href="buyurtmalar.html?ovqat=Osh" class="order-btn">Buyurtma berish</a>
+    </div>
+  </div>
+  <div class="food" data-cat="salat">
+    <div class="food-emoji">🥗</div>
+    <div class="food-body">
+      <h3>Salat</h3>
+      <p>25 000 so'm</p>
+      <a href="buyurtmalar.html?ovqat=Salat" class="order-btn">Buyurtma berish</a>
+    </div>
+  </div>
+  <div class="food" data-cat="asosiy">
+    <div class="food-emoji">🍜</div>
+    <div class="food-body">
+      <h3>Lagman</h3>
+      <p>28 000 so'm</p>
+      <a href="buyurtmalar.html?ovqat=Lagman" class="order-btn">Buyurtma berish</a>
+    </div>
+  </div>
+  <div class="food" data-cat="tezkor">
+    <div class="food-emoji">🥟</div>
+    <div class="food-body">
+      <h3>Belyashi</h3>
+      <p>18 000 so'm</p>
+      <a href="buyurtmalar.html?ovqat=Belyashi" class="order-btn">Buyurtma berish</a>
+    </div>
+  </div>
+  <div class="food" data-cat="tezkor">
+    <div class="food-emoji">🍔</div>
+    <div class="food-body">
+      <h3>Burger</h3>
+      <p>22 000 so'm</p>
+      <a href="buyurtmalar.html?ovqat=Burger" class="order-btn">Buyurtma berish</a>
+    </div>
+  </div>
+  <div class="food" data-cat="asosiy">
+    <div class="food-emoji">🍖</div>
+    <div class="food-body">
+      <h3>Shashlik</h3>
+      <p>35 000 so'm</p>
+      <a href="buyurtmalar.html?ovqat=Shashlik" class="order-btn">Buyurtma berish</a>
+    </div>
+  </div>
+  <div class="food" data-cat="salat">
+    <div class="food-emoji">🥙</div>
+    <div class="food-body">
+      <h3>Shawarma</h3>
+      <p>20 000 so'm</p>
+      <a href="buyurtmalar.html?ovqat=Shawarma" class="order-btn">Buyurtma berish</a>
+    </div>
+  </div>
+  <div class="food" data-cat="tezkor">
+    <div class="food-emoji">🍕</div>
+    <div class="food-body">
+      <h3>Pizza</h3>
+      <p>32 000 so'm</p>
+      <a href="buyurtmalar.html?ovqat=Pizza" class="order-btn">Buyurtma berish</a>
+    </div>
+  </div>
 </section>
 
-<footer>
-<p>© 2026 Rahat Metbex</p>
-</footer>
+<footer><p>© 2026 Rahat Metbex</p></footer>
 
+<script>
+function toggleMenu(){document.querySelector('nav.mobile').classList.toggle('show');}
+
+function filterCategory(cat,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.food').forEach(f=>{
+    f.style.display=(cat==='all'||f.dataset.cat===cat)?'':'none';
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input',function(){
+  const q=this.value.toLowerCase();
+  document.querySelectorAll('.food').forEach(f=>{
+    const name=f.querySelector('h3').textContent.toLowerCase();
+    f.style.display=name.includes(q)?'':'none';
+  });
+});
+
+const params=new URLSearchParams(location.search);
+if(params.get('from')==='order'){
+  setTimeout(()=>{
+    const t=document.getElementById('toast');
+    if(t){t.textContent='✅ Buyurtmangiz qabul qilindi!';t.className='toast success show';setTimeout(()=>t.classList.remove('show'),3500);}
+  },300);
+}
+</script>
 </body>
 </html>

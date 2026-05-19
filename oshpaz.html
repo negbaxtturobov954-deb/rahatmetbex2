@@ -2,67 +2,114 @@
 <html lang="uz">
 <head>
 <meta charset="UTF-8">
-<title>Oshxona Paneli</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oshxona Paneli - Rahat Metbex</title>
 <link rel="stylesheet" href="rahat.css">
 </head>
 <body class="kitchen">
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    if(localStorage.getItem("loggedIn") !== "true"){
-        alert("Siz kirish qilmagansiz!");
-        window.location.href = "login.html";
-    }
-});
-</script>
+<div class="toast" id="toast"></div>
 
 <header class="navbar">
-<div class="logo">OSHXONA PANEL</div>
-<nav>
-<a href="index.html">Sayt</a>
-<a href="kitchen.html" class="active">Buyurtmalar</a>
-</nav>
+  <div class="logo">👨‍🍳 OSHXONA PANEL</div>
+  <nav>
+    <a href="index.html">Sayt</a>
+    <a href="oshpaz.html" class="active">Buyurtmalar</a>
+    <a href="#" onclick="logout()">Chiqish</a>
+  </nav>
 </header>
 
-<h1 class="menu-title">Kelgan Buyurtmalar</h1>
+<div class="kitchen-header">
+  <h1>Kelgan Buyurtmalar</h1>
+  <p id="oshpazSalom">Salom, oshpaz!</p>
+</div>
 
-<section class="orders"></section>
+<div class="kitchen-stats">
+  <div class="kstat"><strong id="totalCount">0</strong><span>Jami</span></div>
+  <div class="kstat"><strong id="waitCount">0</strong><span>Kutmoqda</span></div>
+</div>
+
+<div style="text-align:center;margin:10px 0;">
+  <button class="refresh-btn" onclick="loadOrders()">🔄 Yangilash</button>
+</div>
+
+<section class="orders" id="ordersContainer"></section>
+
+<footer><p>© 2026 Rahat Metbex</p></footer>
 
 <script>
-const ordersContainer = document.querySelector(".orders");
+document.addEventListener("DOMContentLoaded",function(){
+  if(localStorage.getItem("loggedIn")!=="true"){
+    alert("Siz kirish qilmagansiz!");
+    window.location.href="login.html";return;
+  }
+  const nom=localStorage.getItem("oshpazNomi")||"Oshpaz";
+  document.getElementById("oshpazSalom").textContent=`Salom, ${nom}! 👋`;
+  loadOrders();
+  setInterval(loadOrders,15000);
+});
 
-function loadOrders() {
-    ordersContainer.innerHTML = "";
-    const buyurtmalar = JSON.parse(localStorage.getItem("buyurtmalar")) || [];
-
-    if(buyurtmalar.length === 0){
-        ordersContainer.innerHTML = "<p style='text-align:center;color:#555;'>Hozircha buyurtmalar yo‘q</p>";
-        return;
-    }
-
-    buyurtmalar.forEach(b => {
-        const div = document.createElement("div");
-        div.className = "order-card";
-        div.innerHTML = `
-            <h3>Buyurtma #${b.id}</h3>
-            <p>Ovqat: ${b.ovqat}</p>
-            <p>Soni: ${b.soni} ta</p>
-            <p>Mijoz: ${b.ism}</p>
-            <p>Telefon: ${b.telefon}</p>
-            <button class="done">Tayyor</button>
-        `;
-        div.querySelector(".done").addEventListener("click", () => {
-            let buyurtmalar = JSON.parse(localStorage.getItem("buyurtmalar")) || [];
-            buyurtmalar = buyurtmalar.filter(item => item.id !== b.id);
-            localStorage.setItem("buyurtmalar", JSON.stringify(buyurtmalar));
-            loadOrders();
-        });
-        ordersContainer.appendChild(div);
-    });
+function showToast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`toast ${type} show`;
+  setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-document.addEventListener("DOMContentLoaded", loadOrders);
-</script>
+function loadOrders(){
+  const container=document.getElementById("ordersContainer");
+  const buyurtmalar=JSON.parse(localStorage.getItem("buyurtmalar"))||[];
 
+  document.getElementById("totalCount").textContent=buyurtmalar.length;
+  document.getElementById("waitCount").textContent=buyurtmalar.length;
+
+  if(buyurtmalar.length===0){
+    container.innerHTML=`<div class="empty-msg"><div class="empty-icon">🍽️</div><p>Hozircha buyurtmalar yo'q</p></div>`;
+    return;
+  }
+
+  container.innerHTML="";
+  buyurtmalar.forEach(b=>{
+    const div=document.createElement("div");
+    div.className="order-card";
+    div.innerHTML=`
+      <div class="card-header">
+        <h3>📋 Buyurtma</h3>
+        <span class="order-num">#${b.id}</span>
+      </div>
+      <p>🍴 <strong>${b.ovqat}</strong></p>
+      <p>🔢 Soni: <strong>${b.soni} ta</strong></p>
+      <p>👤 Mijoz: <strong>${b.ism}</strong></p>
+      <p>📞 Tel: <strong>${b.telefon}</strong></p>
+      ${b.izoh?`<p>💬 Izoh: <strong>${b.izoh}</strong></p>`:''}
+      <p class="order-time">🕐 ${b.vaqt||'--:--'}</p>
+      <button class="done" onclick="doneOrder(${b.id})">✅ Tayyor</button>
+    `;
+    container.appendChild(div);
+  });
+
+  document.querySelectorAll("button").forEach(btn=>{
+    btn.addEventListener("click",function(e){
+      const r=document.createElement("span");r.className="ripple";
+      const rect=this.getBoundingClientRect();
+      r.style.left=(e.clientX-rect.left)+"px";r.style.top=(e.clientY-rect.top)+"px";
+      this.appendChild(r);setTimeout(()=>r.remove(),600);
+    });
+  });
+}
+
+function doneOrder(id){
+  let buyurtmalar=JSON.parse(localStorage.getItem("buyurtmalar"))||[];
+  buyurtmalar=buyurtmalar.filter(b=>b.id!==id);
+  localStorage.setItem("buyurtmalar",JSON.stringify(buyurtmalar));
+  showToast(`#${id} buyurtma tayyor ✅`,'success');
+  loadOrders();
+}
+
+function logout(){
+  localStorage.removeItem("loggedIn");
+  localStorage.removeItem("oshpazNomi");
+  window.location.href="login.html";
+}
+</script>
 </body>
 </html>
